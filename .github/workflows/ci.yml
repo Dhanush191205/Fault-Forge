@@ -1,0 +1,73 @@
+name: Fault Forge checks
+on:
+  push:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  backend:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: application/backend
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+        with:
+          version: '0.10.12'
+          enable-cache: true
+      - run: uv sync --frozen --python 3.12 --extra vector
+      - run: uv run ruff check app tests
+      - run: uv run pytest -q
+      - name: Start isolated PostgreSQL with generated credentials
+        shell: bash
+        run: |
+          export POSTGRES_PASSWORD="$(openssl rand -hex 24)"
+          echo "::add-mask::$POSTGRES_PASSWORD"
+          export POSTGRES_USER=faultforge_ci
+          export POSTGRES_DB=faultforge_test
+          docker run -d --name faultforge-ci -p 127.0.0.1:5432:5432 -e POSTGRES_PASSWORD -e POSTGRES_USER -e POSTGRES_DB postgres:16.13-alpine
+          echo "TEST_DATABASE_URL=postgresql+psycopg://$POSTGRES_USER:$POSTGRES_PASSWORD@localhost:5432/$POSTGRES_DB" >> "$GITHUB_ENV"
+          for i in $(seq 1 30); do docker exec faultforge-ci pg_isready -U "$POSTGRES_USER" -d "$POSTGRES_DB" && break; sleep 2; done
+      - run: uv run pytest -q
+  browser:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+          cache-dependency-path: application/frontend/package-lock.json
+      - uses: astral-sh/setup-uv@v6
+        with:
+          version: '0.10.12'
+      - run: uv sync --frozen --python 3.12
+        working-directory: application/backend
+      - run: npm ci
+        working-directory: application/frontend
+      - run: npm run build
+        working-directory: application/frontend
+      - run: npx playwright install --with-deps chromium
+        working-directory: application/frontend
+      - name: Prepare synthetic test data and start services
+        run: |
+          cd application
+          backend/.venv/bin/python tools/setup_local.py
+          cd backend
+          .venv/bin/python -m alembic upgrade head
+          .venv/bin/python -m app.seed demo
+          .venv/bin/python -m uvicorn app.main:app --host 127.0.0.1 --port 8000 > /tmp/forge-api.log 2>&1 &
+          .venv/bin/python -m app.worker > /tmp/forge-worker.log 2>&1 &
+          cd ../frontend
+          npm run dev > /tmp/forge-web.log 2>&1 &
+          for i in $(seq 1 30); do curl -fsS http://127.0.0.1:5173/api/ready && break; sleep 2; done
+      - run: npm run test:e2e
+        working-directory: application/frontend
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: training-screenshots
+          path: application/docs/screenshots
+          retention-days: 7
+

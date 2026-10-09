@@ -1,100 +1,64 @@
-# ⚙️ Fault-Forge
+# Fault Forge — GenAI Digital Twin Training Simulator
 
-**GenAI-Powered Industrial Maintenance Training Simulator**
+Industrial maintenance training for CNC machines, hydraulic presses and conveyors. The current application uses clearly labeled synthetic training fixtures.
 
-Fault-Forge is an educational industrial-training platform designed to simulate realistic equipment-failure scenarios, guide technicians through diagnostic workflows, assess their decisions, and visualize equipment through a 3D digital-twin interface.
+React + React Three Fiber · FastAPI · PostgreSQL · ChromaDB · configurable NVIDIA NIM inference
 
-> This project is intended for training and simulation only. It does not connect to or control physical machinery.
+Grounded scenario generation, server-side validation, instructor approval, interactive diagnosis, rubric grading and PDF reports form one training workflow. Development runs with explicit synthetic providers; live inference and production qualification remain separate release gates.
 
-## Project Goals
+![Fault Forge workspace](application/docs/screenshots/workspace-preview.png)
 
-- Generate realistic maintenance-failure scenarios from technical documents and case histories
-- Provide interactive branching diagnostic simulations
-- Create quiz banks and structured assessments
-- Score trainee performance using configurable rubrics
-- Maintain trainee attempt and assessment history
-- Visualize equipment using 3D digital twins
-- Support instructor and administrator workflows
-
-## Planned / Current Architecture
+## Project folders
 
 ```text
-React Frontend
-├── Dashboard
-├── Scenario Console
-├── Quiz Runner
-├── Assessment History
-├── Admin / Documentation Panel
-└── 3D Digital Twin Viewer
-
-FastAPI Backend
-├── Authentication & Users
-├── Scenario Engine
-├── Assessment Engine
-├── Document / RAG Pipeline
-├── Job Worker
-└── REST / Streaming APIs
-
-Data Layer
-├── PostgreSQL
-└── pgvector
-
-Infrastructure
-└── Docker Compose
+finalNVIDIA/
+├── .github/                  Repository-wide automated checks
+├── README.md                 Start here
+├── application/              Working application
+│   ├── backend/              FastAPI services, database migrations and tests
+│   ├── frontend/             React interface, 3D views and browser tests
+│   ├── data/                 Synthetic machine and training content
+│   ├── docs/                 Technical guides and verification evidence
+│   ├── tools/                Setup, checks and source packaging
+│   ├── .github/              CI workflow for the application repository
+│   ├── start-local.ps1       Start the local application
+│   └── stop-local.ps1        Stop its local services
+├── knowledge-library/       Reference collection and its supporting tools
+├── documentation/           Current handover and preserved project history
+│   └── history/             Earlier plans and implementation reports
+└── releases/                Source packages and SHA-256 manifests
 ```
 
-## Core Technology Stack
+## Open the application
 
-- React + Vite
-- Python + FastAPI
-- PostgreSQL
-- pgvector
-- Docker / Docker Compose
-- Three.js / React Three Fiber
-- Generative AI / RAG
+Prerequisites: Git, Node.js 24 and uv. Clone the repository, then start the application in PowerShell:
 
-## Main Functional Areas
-
-1. **Authentication and Roles** — administrator, instructor, and trainee access
-2. **Scenario Generation** — grounded failure scenarios from manuals and historical cases
-3. **Interactive Simulation** — evidence gathering and diagnostic decision workflows
-4. **Quiz & Assessment** — structured knowledge checks and scoring
-5. **Training Records** — saved attempts, submissions, and assessment results
-6. **3D Digital Twin** — interactive equipment visualization
-7. **Documentation** — academic and project reporting outputs
-
-## Recommended Repository Structure
-
-```text
-Fault-Forge/
-├── frontend/
-├── backend/
-├── worker/
-├── docs/
-├── tests/
-├── scripts/
-├── docker-compose.yml
-├── .env.example
-├── .gitignore
-└── README.md
+```powershell
+git clone https://github.com/Dhanush191205/Fault-Forge.git
+Set-Location Fault-Forge/application
+.\start-local.ps1 -Install
 ```
 
-## Development Status
+For the existing computer workspace, run:
 
-**Active Development**
+```powershell
+Set-Location 'D:\Minor proj\finalNVIDIA\application'
+.\start-local.ps1
+```
 
-This repository is being structured as the main portfolio-grade implementation of Fault-Forge.
+For a new installation, use `./start-local.ps1 -Install`. Open [Fault Forge locally](http://localhost:5173) after starting it. Local account credentials are in `application/local-access.txt`; keep that file and `.env` private. Use `./stop-local.ps1` from the same folder to stop the services.
 
-## Engineering Principles
+## Find what you need
 
-- Keep training logic deterministic where required
-- Never expose hidden answer keys before submission
-- Keep physical machinery completely disconnected
-- Separate frontend, backend, worker, and data responsibilities
-- Document architecture and setup clearly
-- Use environment variables for secrets and deployment configuration
+- [Application setup and architecture](application/README.md)
+- [Current delivery handover](documentation/FAULT-FORGE-DELIVERY.md)
+- [Verification results and remaining release gates](application/docs/VERIFICATION.md)
+- [Deployment guide](application/docs/DEPLOYMENT.md)
+- [Strict requirements mapped to code](application/docs/STRICT-RULES.md)
+- [Release packages](releases/README.md)
+- [Historical documents](documentation/history/README.md)
+- [Contribution and test guide](CONTRIBUTING.md)
 
-## Author
+Work on current code inside `application/`. Its location is unchanged so installed dependencies and local launchers continue to work. Runtime files and logs remain in the application's existing private/cache folders. The reference library is preserved; its contents are not automatically approved for generation.
 
-**M Dhanush**  
-GitHub: `Dhanush191205`
+The documents in `documentation/history/` describe earlier work and proposals. Use the current verification record above to assess this build.

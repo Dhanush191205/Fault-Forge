@@ -1,0 +1,37 @@
+# Local credentials and machine-specific state
+.env
+.env.*
+!.env.example
+local-access.txt
+*.pem
+*.key
+.vercel/
+.cache/
+
+# Dependencies, build outputs and test artifacts
+.venv/
+node_modules/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+dist/
+build/
+test-results/
+playwright-report/
+*.log
+*.db
+*.db-*
+*.sqlite*
+.DS_Store
+Thumbs.db
+
+# Generated release archives remain local
+releases/*/
+
+# Local reference downloads and report runtime are not application source
+knowledge-library/manuals/
+knowledge-library/failure-references/
+knowledge-library/assessment-references/
+knowledge-library/inspection/
+knowledge-library/reports/

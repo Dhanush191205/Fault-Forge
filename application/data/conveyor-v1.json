@@ -1,0 +1,362 @@
+{
+  "machine": {
+    "id": "conveyor-v1",
+    "name": "Conveyor belt",
+    "description": "A simplified light-duty belt conveyor with drive, return pulley and support frame.",
+    "synthetic": true,
+    "components": [
+      {
+        "id": "conveyor-v1.frame",
+        "name": "Support frame",
+        "sensors": [],
+        "geometry": {
+          "shape": "box",
+          "position": [
+            0,
+            0.55,
+            0
+          ],
+          "scale": [
+            3.8,
+            0.3,
+            1.3
+          ],
+          "color": "#9ca8ae"
+        }
+      },
+      {
+        "id": "conveyor-v1.belt",
+        "name": "Belt",
+        "sensors": [
+          {
+            "id": "speed",
+            "label": "Belt speed",
+            "unit": "m/s",
+            "normal": [
+              0.4,
+              0.6
+            ],
+            "abnormal": [
+              [
+                0,
+                0.399
+              ]
+            ]
+          }
+        ],
+        "geometry": {
+          "shape": "box",
+          "position": [
+            0,
+            0.8,
+            0
+          ],
+          "scale": [
+            3.6,
+            0.12,
+            1.2
+          ],
+          "color": "#3c5359"
+        }
+      },
+      {
+        "id": "conveyor-v1.drive",
+        "name": "Drive unit",
+        "sensors": [
+          {
+            "id": "current",
+            "label": "Drive current",
+            "unit": "A",
+            "normal": [
+              1,
+              4
+            ],
+            "abnormal": [
+              [
+                4.01,
+                8
+              ]
+            ]
+          }
+        ],
+        "geometry": {
+          "shape": "cylinder",
+          "position": [
+            -1.8,
+            0.6,
+            0.8
+          ],
+          "scale": [
+            0.7,
+            0.55,
+            0.55
+          ],
+          "color": "#b6df9c"
+        }
+      },
+      {
+        "id": "conveyor-v1.return",
+        "name": "Return pulley",
+        "sensors": [],
+        "geometry": {
+          "shape": "cylinder",
+          "position": [
+            1.7,
+            0.7,
+            0
+          ],
+          "scale": [
+            0.3,
+            1.2,
+            0.3
+          ],
+          "color": "#c2c8c9"
+        }
+      },
+      {
+        "id": "conveyor-v1.leg1",
+        "name": "Entry support",
+        "sensors": [],
+        "geometry": {
+          "shape": "box",
+          "position": [
+            -1.2,
+            0.1,
+            0
+          ],
+          "scale": [
+            0.2,
+            1,
+            1
+          ],
+          "color": "#58616d"
+        }
+      },
+      {
+        "id": "conveyor-v1.leg2",
+        "name": "Exit support",
+        "sensors": [],
+        "geometry": {
+          "shape": "box",
+          "position": [
+            1.2,
+            0.1,
+            0
+          ],
+          "scale": [
+            0.2,
+            1,
+            1
+          ],
+          "color": "#58616d"
+        }
+      }
+    ]
+  },
+  "sources": [
+    {
+      "id": "conveyor-v1.manual.v1",
+      "kind": "manual",
+      "title": "Conveyor belt — synthetic reference",
+      "locator": "Original project fixture / section 1",
+      "content": {
+        "text": "Original project-authored synthetic reference v1. A simplified light-duty belt conveyor with drive, return pulley and support frame. All numeric values and observations are invented for this educational fixture and must not configure real equipment. Review authorized lockout/tagout and verification of stored-energy isolation before physical access. Use correlated observations and compare competing causes. Relative motion and the controlled tension comparison support insufficient belt traction in this fixture. Slow speed alone cannot distinguish slip, overload or mechanical interference."
+      },
+      "synthetic": true,
+      "external_inference_allowed": true
+    },
+    {
+      "id": "conveyor-v1.case.v1",
+      "kind": "case",
+      "title": "Throughput below target",
+      "locator": "Original project fixture / case 1",
+      "content": {
+        "title": "Throughput below target",
+        "briefing": "A conveyor moves more slowly under its simulated load even though the drive command is unchanged. Correlate motion, drive and service records.",
+        "manual_ids": [
+          "conveyor-v1.manual.v1"
+        ],
+        "component_ids": [
+          "conveyor-v1.frame",
+          "conveyor-v1.belt",
+          "conveyor-v1.drive",
+          "conveyor-v1.return",
+          "conveyor-v1.leg1",
+          "conveyor-v1.leg2"
+        ],
+        "readings": [
+          {
+            "component_id": "conveyor-v1.belt",
+            "sensor_id": "speed",
+            "value": 0.22,
+            "state": "abnormal"
+          },
+          {
+            "component_id": "conveyor-v1.drive",
+            "sensor_id": "current",
+            "value": 3.2,
+            "state": "normal"
+          }
+        ],
+        "hints": [
+          "Compare at least two independent observations before selecting a diagnosis.",
+          "A reading outside its training range is evidence, but does not establish a cause by itself."
+        ],
+        "steps": [
+          "Review the simulated safety plan: authorized lockout/tagout, stored-energy isolation and verification before physical access.",
+          "Inspect the recorded visual evidence. This simulation does not authorize access to real machinery.",
+          "Read the archived condition measurements and compare them with this fixture's training envelope.",
+          "Compare the recorded operating history with a competing explanation.",
+          "Review the virtual verification evidence, then justify a diagnosis using the strongest observations."
+        ],
+        "synthetic": true,
+        "diagnoses": [
+          {
+            "id": "d1",
+            "text": "Insufficient belt traction"
+          },
+          {
+            "id": "d2",
+            "text": "Electrical overload"
+          },
+          {
+            "id": "d3",
+            "text": "Guide interference"
+          },
+          {
+            "id": "d4",
+            "text": "Excessive conveyed load"
+          },
+          {
+            "id": "d5",
+            "text": "Bearing seizure"
+          }
+        ],
+        "correct_diagnosis_id": "d1",
+        "evidence": [
+          {
+            "id": "e1",
+            "label": "Motion comparison",
+            "text": "Archived marks show relative motion between the drive pulley surface and belt under the same virtual load.",
+            "reveal_step": 2
+          },
+          {
+            "id": "e2",
+            "label": "Controlled verification",
+            "text": "A simulated restoration of the specified fixture tension eliminates the relative motion at unchanged load.",
+            "reveal_step": 5
+          },
+          {
+            "id": "e3",
+            "label": "Drive record",
+            "text": "Current remains in the fixture's normal envelope; the virtual motor command has not changed.",
+            "reveal_step": 3
+          },
+          {
+            "id": "e4",
+            "label": "Service history",
+            "text": "The symptom follows a recorded belt replacement, with no corresponding change in load.",
+            "reveal_step": 4
+          }
+        ],
+        "required_evidence_ids": [
+          "e1",
+          "e2"
+        ],
+        "explanation": "Relative motion and the controlled tension comparison support insufficient belt traction in this fixture. Slow speed alone cannot distinguish slip, overload or mechanical interference.",
+        "rationale_rubric": [
+          "0–10: connects the two distinguishing observations to the proposed cause; partial credit for a supported but incomplete link.",
+          "0–10: compares one credible alternative and explains what evidence weakens it; no credit for unsupported certainty."
+        ],
+        "quiz": [
+          {
+            "id": "q1",
+            "text": "What is the first requirement before physical access in the applicable real workplace?",
+            "options": [
+              {
+                "id": "o1",
+                "text": "Review the authorized energy-isolation plan and verify isolation"
+              },
+              {
+                "id": "o2",
+                "text": "Compare the production counts"
+              },
+              {
+                "id": "o3",
+                "text": "Read the maintenance budget"
+              },
+              {
+                "id": "o4",
+                "text": "Identify the asset purchase date"
+              },
+              {
+                "id": "o5",
+                "text": "Review the shift calendar"
+              }
+            ],
+            "correct_id": "o1",
+            "explanation": "The exercise begins with authorized safety planning and verified energy isolation. Follow the actual site procedure."
+          },
+          {
+            "id": "q2",
+            "text": "Which approach gives the strongest diagnostic conclusion?",
+            "options": [
+              {
+                "id": "o1",
+                "text": "Use the most recent alarm alone"
+              },
+              {
+                "id": "o2",
+                "text": "Select the most expensive component"
+              },
+              {
+                "id": "o3",
+                "text": "Correlate independent evidence and test alternatives"
+              },
+              {
+                "id": "o4",
+                "text": "Select the most familiar fault name"
+              },
+              {
+                "id": "o5",
+                "text": "Use the oldest maintenance note alone"
+              }
+            ],
+            "correct_id": "o3",
+            "explanation": "Independent observations and plausible alternatives reduce unsupported diagnosis from a single symptom."
+          },
+          {
+            "id": "q3",
+            "text": "How should these sensor limits be applied?",
+            "options": [
+              {
+                "id": "o1",
+                "text": "Treat them as universal machine limits"
+              },
+              {
+                "id": "o2",
+                "text": "Use them to set a real machine controller"
+              },
+              {
+                "id": "o3",
+                "text": "Apply them to every component"
+              },
+              {
+                "id": "o4",
+                "text": "Use them only within this synthetic training fixture"
+              },
+              {
+                "id": "o5",
+                "text": "Treat them as a manufacturer certification"
+              }
+            ],
+            "correct_id": "o4",
+            "explanation": "These are invented educational ranges. Real machinery requires approved limits for its exact configuration."
+          }
+        ]
+      },
+      "synthetic": true,
+      "external_inference_allowed": true
+    }
+  ]
+}

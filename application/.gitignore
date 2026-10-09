@@ -1,0 +1,16 @@
+.env
+.venv/
+.cache/
+__pycache__/
+.pytest_cache/
+.ruff_cache/
+*.pyc
+*.db
+*.db-*
+node_modules/
+dist/
+test-results/
+playwright-report/
+*.log
+.vercel/
+local-access.txt

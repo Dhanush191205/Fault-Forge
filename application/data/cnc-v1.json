@@ -1,0 +1,362 @@
+{
+  "machine": {
+    "id": "cnc-v1",
+    "name": "CNC machine",
+    "description": "A simplified enclosed milling cell with a spindle, table and coolant loop.",
+    "synthetic": true,
+    "components": [
+      {
+        "id": "cnc-v1.base",
+        "name": "Machine bed",
+        "sensors": [],
+        "geometry": {
+          "shape": "box",
+          "position": [
+            0,
+            0.2,
+            0
+          ],
+          "scale": [
+            3,
+            0.4,
+            2
+          ],
+          "color": "#56606a"
+        }
+      },
+      {
+        "id": "cnc-v1.column",
+        "name": "Column",
+        "sensors": [],
+        "geometry": {
+          "shape": "box",
+          "position": [
+            0,
+            1.5,
+            -0.65
+          ],
+          "scale": [
+            0.8,
+            2.6,
+            0.65
+          ],
+          "color": "#bbc3c6"
+        }
+      },
+      {
+        "id": "cnc-v1.spindle",
+        "name": "Spindle head",
+        "sensors": [
+          {
+            "id": "vibration",
+            "label": "Spindle vibration",
+            "unit": "mm/s",
+            "normal": [
+              0,
+              2.5
+            ],
+            "abnormal": [
+              [
+                2.51,
+                8
+              ]
+            ]
+          }
+        ],
+        "geometry": {
+          "shape": "box",
+          "position": [
+            0,
+            1.85,
+            0.05
+          ],
+          "scale": [
+            0.8,
+            0.85,
+            0.8
+          ],
+          "color": "#e6e9e7"
+        }
+      },
+      {
+        "id": "cnc-v1.tool",
+        "name": "Tool holder",
+        "sensors": [],
+        "geometry": {
+          "shape": "cylinder",
+          "position": [
+            0,
+            1.25,
+            0.15
+          ],
+          "scale": [
+            0.12,
+            0.4,
+            0.12
+          ],
+          "color": "#c3ec9e"
+        }
+      },
+      {
+        "id": "cnc-v1.table",
+        "name": "Work table",
+        "sensors": [],
+        "geometry": {
+          "shape": "box",
+          "position": [
+            0,
+            0.7,
+            0.2
+          ],
+          "scale": [
+            2.1,
+            0.3,
+            1.3
+          ],
+          "color": "#8f9caa"
+        }
+      },
+      {
+        "id": "cnc-v1.coolant",
+        "name": "Coolant unit",
+        "sensors": [
+          {
+            "id": "flow",
+            "label": "Coolant flow",
+            "unit": "L/min",
+            "normal": [
+              6,
+              12
+            ],
+            "abnormal": [
+              [
+                0,
+                5.99
+              ]
+            ]
+          }
+        ],
+        "geometry": {
+          "shape": "box",
+          "position": [
+            1.8,
+            0.5,
+            -0.5
+          ],
+          "scale": [
+            0.6,
+            1,
+            0.7
+          ],
+          "color": "#789d9d"
+        }
+      }
+    ]
+  },
+  "sources": [
+    {
+      "id": "cnc-v1.manual.v1",
+      "kind": "manual",
+      "title": "CNC machine — synthetic reference",
+      "locator": "Original project fixture / section 1",
+      "content": {
+        "text": "Original project-authored synthetic reference v1. A simplified enclosed milling cell with a spindle, table and coolant loop. All numeric values and observations are invented for this educational fixture and must not configure real equipment. Review authorized lockout/tagout and verification of stored-energy isolation before physical access. Use correlated observations and compare competing causes. In this authored fixture, increased tool overhang and the controlled comparison support insufficient tooling stiffness. Vibration alone would not distinguish this from bearings or workholding."
+      },
+      "synthetic": true,
+      "external_inference_allowed": true
+    },
+    {
+      "id": "cnc-v1.case.v1",
+      "kind": "case",
+      "title": "A change in surface finish",
+      "locator": "Original project fixture / case 1",
+      "content": {
+        "title": "A change in surface finish",
+        "briefing": "A milling cell develops a rough finish after a tooling change. Production is paused in the training record. Investigate the evidence before proposing a cause.",
+        "manual_ids": [
+          "cnc-v1.manual.v1"
+        ],
+        "component_ids": [
+          "cnc-v1.base",
+          "cnc-v1.column",
+          "cnc-v1.spindle",
+          "cnc-v1.tool",
+          "cnc-v1.table",
+          "cnc-v1.coolant"
+        ],
+        "readings": [
+          {
+            "component_id": "cnc-v1.spindle",
+            "sensor_id": "vibration",
+            "value": 4.2,
+            "state": "abnormal"
+          },
+          {
+            "component_id": "cnc-v1.coolant",
+            "sensor_id": "flow",
+            "value": 8,
+            "state": "normal"
+          }
+        ],
+        "hints": [
+          "Compare at least two independent observations before selecting a diagnosis.",
+          "A reading outside its training range is evidence, but does not establish a cause by itself."
+        ],
+        "steps": [
+          "Review the simulated safety plan: authorized lockout/tagout, stored-energy isolation and verification before physical access.",
+          "Inspect the recorded visual evidence. This simulation does not authorize access to real machinery.",
+          "Read the archived condition measurements and compare them with this fixture's training envelope.",
+          "Compare the recorded operating history with a competing explanation.",
+          "Review the virtual verification evidence, then justify a diagnosis using the strongest observations."
+        ],
+        "synthetic": true,
+        "diagnoses": [
+          {
+            "id": "d1",
+            "text": "Coolant restriction"
+          },
+          {
+            "id": "d2",
+            "text": "Excessive tool overhang"
+          },
+          {
+            "id": "d3",
+            "text": "Spindle bearing degradation"
+          },
+          {
+            "id": "d4",
+            "text": "Loose workholding"
+          },
+          {
+            "id": "d5",
+            "text": "Tool edge wear"
+          }
+        ],
+        "correct_diagnosis_id": "d2",
+        "evidence": [
+          {
+            "id": "e1",
+            "label": "Tooling record",
+            "text": "The recorded tool assembly has greater overhang than the stable comparison setup.",
+            "reveal_step": 2
+          },
+          {
+            "id": "e2",
+            "label": "Controlled comparison",
+            "text": "In the archived virtual comparison, shorter overhang reduces vibration at the same simulated cutting conditions.",
+            "reveal_step": 5
+          },
+          {
+            "id": "e3",
+            "label": "Coolant record",
+            "text": "Flow remains within the synthetic range; the recorded workpiece receives coolant.",
+            "reveal_step": 3
+          },
+          {
+            "id": "e4",
+            "label": "Maintenance history",
+            "text": "No change in the recorded bearing trend preceded the tool change.",
+            "reveal_step": 4
+          }
+        ],
+        "required_evidence_ids": [
+          "e1",
+          "e2"
+        ],
+        "explanation": "In this authored fixture, increased tool overhang and the controlled comparison support insufficient tooling stiffness. Vibration alone would not distinguish this from bearings or workholding.",
+        "rationale_rubric": [
+          "0–10: connects the two distinguishing observations to the proposed cause; partial credit for a supported but incomplete link.",
+          "0–10: compares one credible alternative and explains what evidence weakens it; no credit for unsupported certainty."
+        ],
+        "quiz": [
+          {
+            "id": "q1",
+            "text": "What is the first requirement before physical access in the applicable real workplace?",
+            "options": [
+              {
+                "id": "o1",
+                "text": "Review the authorized energy-isolation plan and verify isolation"
+              },
+              {
+                "id": "o2",
+                "text": "Compare the production counts"
+              },
+              {
+                "id": "o3",
+                "text": "Read the maintenance budget"
+              },
+              {
+                "id": "o4",
+                "text": "Identify the asset purchase date"
+              },
+              {
+                "id": "o5",
+                "text": "Review the shift calendar"
+              }
+            ],
+            "correct_id": "o1",
+            "explanation": "The exercise begins with authorized safety planning and verified energy isolation. Follow the actual site procedure."
+          },
+          {
+            "id": "q2",
+            "text": "Which approach gives the strongest diagnostic conclusion?",
+            "options": [
+              {
+                "id": "o1",
+                "text": "Use the most recent alarm alone"
+              },
+              {
+                "id": "o2",
+                "text": "Select the most expensive component"
+              },
+              {
+                "id": "o3",
+                "text": "Correlate independent evidence and test alternatives"
+              },
+              {
+                "id": "o4",
+                "text": "Select the most familiar fault name"
+              },
+              {
+                "id": "o5",
+                "text": "Use the oldest maintenance note alone"
+              }
+            ],
+            "correct_id": "o3",
+            "explanation": "Independent observations and plausible alternatives reduce unsupported diagnosis from a single symptom."
+          },
+          {
+            "id": "q3",
+            "text": "How should these sensor limits be applied?",
+            "options": [
+              {
+                "id": "o1",
+                "text": "Treat them as universal machine limits"
+              },
+              {
+                "id": "o2",
+                "text": "Use them to set a real machine controller"
+              },
+              {
+                "id": "o3",
+                "text": "Apply them to every component"
+              },
+              {
+                "id": "o4",
+                "text": "Use them only within this synthetic training fixture"
+              },
+              {
+                "id": "o5",
+                "text": "Treat them as a manufacturer certification"
+              }
+            ],
+            "correct_id": "o4",
+            "explanation": "These are invented educational ranges. Real machinery requires approved limits for its exact configuration."
+          }
+        ]
+      },
+      "synthetic": true,
+      "external_inference_allowed": true
+    }
+  ]
+}
